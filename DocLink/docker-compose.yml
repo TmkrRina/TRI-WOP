@@ -1,0 +1,45 @@
+version: "3.7"
+
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: doclink
+      MYSQL_DATABASE: doclink
+      MYSQL_USER: doclink
+      MYSQL_PASSWORD: doclink
+    networks:
+      - backend
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  doclink:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - backend
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/doclink
+      SPRING_DATASOURCE_USERNAME: doclink
+      SPRING_DATASOURCE_PASSWORD: doclink
+
+    volumes:
+      - .:/DocLink
+
+
+networks:
+  backend:
+
+volumes:
+  dbdata:
+
+
