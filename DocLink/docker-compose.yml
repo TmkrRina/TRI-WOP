@@ -34,6 +34,19 @@ services:
 
     volumes:
       - .:/DocLink
+      
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: db
+    ports:
+      - "8081:80"
+    networks:
+      - backend
+    depends_on:
+      - db
 
 
 networks:
