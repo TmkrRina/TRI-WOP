@@ -30,11 +30,11 @@ import javax.persistence.UniqueConstraint;
 @Entity
 
 @Data
-public class UserModel {
+public class User {
 	
 
 
-	public UserModel(Long id, String fname, String lname, String email, String password, String gender, String state,
+	public User(Long id, String fname, String lname, String email, String password, String gender, String state,
 			String country, String profile_img, Boolean confirmed_email, UserRole role) {
 		super();
 		this.id = id;
@@ -50,7 +50,7 @@ public class UserModel {
 		this.role = role;
 	
 	}
-	public UserModel() {
+	public User() {
 	}
 
 	@Id
@@ -68,12 +68,12 @@ public class UserModel {
 	private Boolean confirmed_email;
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
-	@OneToOne(fetch = FetchType.LAZY,optional = false)
-	@JoinColumn(name="user_id",nullable = false)
-	private PostModel post;
 	
-	 @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
-	            cascade = CascadeType.ALL)
-	    private List<CommentModel> comments;
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "user",cascade = CascadeType.ALL)
+	private List<Post> posts;
 	
+//	 @OneToMany(cascade=CascadeType.ALL)
+//	    @JoinColumn(name="user")
+//	    private List<Comment> comments;
+//	
 }

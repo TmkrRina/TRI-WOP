@@ -1,7 +1,6 @@
 package dto;
 
-import com.doclink.model.PostModel;
-import com.doclink.model.UserModel;
+import com.doclink.model.User;
 import com.doclink.model.UserRole;
 
 import lombok.Data;
@@ -18,20 +17,18 @@ public class UserDTO {
 	private String profile_img;
 	private Boolean confirmed_email;
 	private UserRole role;
-	private PostModel post;
 	public UserDTO() {}
 	
-	public UserDTO(UserModel userModel) {
-		this.fname = userModel.getFname();
-		this.lname=userModel.getLname();
-		this.email = userModel.getEmail();
-		this.gender=userModel.getGender();
-		this.state = userModel.getState();
-		this.country=userModel.getCountry();
-		this.profile_img = userModel.getProfile_img();
-		this.confirmed_email=userModel.getConfirmed_email();
-		this.role = userModel.getRole();
-		this.post=userModel.getPost();
+	public UserDTO(User user) {
+		this.fname = user.getFname();
+		this.lname=user.getLname();
+		this.email = user.getEmail();
+		this.gender=user.getGender();
+		this.state = user.getState();
+		this.country=user.getCountry();
+		this.profile_img = user.getProfile_img();
+		this.confirmed_email=user.getConfirmed_email();
+		this.role = user.getRole();
 		
 	}
 }

@@ -2,8 +2,8 @@ package com.doclink.repo;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.doclink.model.UserModel;
+import com.doclink.model.User;
 
-public interface UserRepo extends CrudRepository<UserModel,Long> {
+public interface UserRepo extends CrudRepository<User,Long> {
 	
 }

@@ -7,16 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.doclink.model.CommentModel;
-import com.doclink.model.PostModel;
+import com.doclink.model.Comment;
+import com.doclink.model.Doctor;
+import com.doclink.model.Post;
 import com.doclink.model.PostType;
-import com.doclink.model.UserModel;
+import com.doclink.model.User;
 import com.doclink.model.UserRole;
 import com.doclink.service.CommentService;
+import com.doclink.service.DoctorService;
 import com.doclink.service.PostService;
 import com.doclink.service.UserService;
 
 import dto.CommentDTO;
+import dto.DoctorDTO;
 import dto.PostDTO;
 import dto.UserDTO;
 
@@ -28,41 +31,48 @@ public class Controller {
 	PostService ps;
 	@Autowired
 	CommentService cs;
+	@Autowired
+	DoctorService doctor_service;
+	
 
-	List<UserModel> users = new ArrayList<UserModel>();
-    List<PostModel>posts =new ArrayList<PostModel>();
+	List<User> users = new ArrayList<User>();
+	List<Post> posts = new ArrayList<Post>();
+
 	@GetMapping("/user")
 	public UserDTO add() {
-		UserModel nm = new UserModel((long) 1, "perry", "luigi", "sdfsdf", "123ed", "male", "iowa", "usa", "adsdasd",
-				true, UserRole.Role_Admin);
+		User nm2 = new User((long) 4, "perry", "luigi", "asdsfghjklkfds", "123ed", "male", "iowa", "usa",
+				"adsdasd", true, UserRole.Role_Admin);
 		
-		return us.add(nm);
+		return us.add(nm2);
 	}
 
 	@GetMapping("/post")
 	private PostDTO post() {
-		UserModel nm = new UserModel((long) 1, "perry", "luigi", "sdfsdf", "123ed", "male", "iowa", "usa", "adsdasd",
-				true, UserRole.Role_Admin);
-		us.add(nm);
-		users.add(nm);
-		
-		PostModel pm = new PostModel((long) 1, "hi", "jhadsjfalk", "12/34/67", PostType.Annoucement, users.get(0));
+		User nm2 = new User((long) 1, "perry", "luigi", "asdsfghjklkfds", "123ed", "male", "iowa", "usa",
+				"adsdasd", true, UserRole.Role_Admin);
+
+//		us.add(nm2);
+		Post pm = new Post((long) 1, "hi", "jhadsjfalk", "12/34/67", PostType.Annoucement, nm2);
 
 		return ps.post(pm);
 
 	}
+
 	@GetMapping("/comment")
 	private CommentDTO comment() {
-		UserModel nm = new UserModel((long) 1, "perry", "luigi", "sdfsdf", "123ed", "male", "iowa", "usa", "adsdasd",
-				true, UserRole.Role_Admin);
-		PostModel pm = new PostModel((long) 1, "hi", "jhadsjfalk", "12/34/67", PostType.Annoucement, users.get(0));
-		us.add(nm);
-		ps.post(pm);
-		
-		users.add(nm);
-		posts.add(pm);
-		CommentModel cm = new CommentModel((long) 1, users.get(0), "12/34/6567", "its working");
+		User nm2 = new User((long) 1, "perry", "luigi", "asdsfghjklkfds", "123ed", "male", "iowa", "usa",
+				"adsdasd", true, UserRole.Role_Admin);
+		Post pm = new Post((long) 7, "hi", "jhadsjfalk", "12/34/67", PostType.Annoucement, nm2);
+		Comment cm = new Comment((long) 1, nm2, "12/21/21", "sjdajnads", pm);
 		return cs.comment(cm);
-		}
-	
+	}
+
+	@GetMapping("/doctor")
+	private DoctorDTO doctor() {
+		User nm2 = new User((long) 1, "perry", "luigi", "asdsfghjklkfds", "123ed", "male", "iowa", "usa",
+				"adsdasd", true, UserRole.Role_Admin);
+		Doctor dc = new Doctor((long) 1, "sdgfbdsjkhfgdsuyifhdsbuyf", "fjhsdfgdsvfsdf", nm2);
+		return doctor_service.doctor(dc);
+	}
+
 }

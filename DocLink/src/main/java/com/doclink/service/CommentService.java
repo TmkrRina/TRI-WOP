@@ -3,7 +3,7 @@ package com.doclink.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.doclink.model.CommentModel;
+import com.doclink.model.Comment;
 import com.doclink.repo.CommentRepo;
 
 import dto.CommentDTO;
@@ -13,9 +13,9 @@ public class CommentService {
 @Autowired
 CommentRepo cr;
 
-public CommentDTO comment(CommentModel comment) {
+public CommentDTO comment(Comment comment) {
 	
-	CommentModel cms = cr.save(comment);
+	Comment cms = cr.save(comment);
 	
 	CommentDTO csto = new CommentDTO(cms);
 	

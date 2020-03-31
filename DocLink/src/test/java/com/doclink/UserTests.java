@@ -13,7 +13,7 @@ import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.doclink.model.UserModel;
+import com.doclink.model.User;
 import com.doclink.model.UserRole;
 import com.doclink.service.UserService;
 
@@ -22,7 +22,7 @@ import com.doclink.service.UserService;
 class UserTests {
 	
 	@Autowired
-	JacksonTester<UserModel> json;
+	JacksonTester<User> json;
 
 	/*
 	 * @Test void test() { UserModel nm = new UserModel((long)
@@ -33,7 +33,7 @@ class UserTests {
 	
 	@Test
 	void test() {
-		UserModel nm = new UserModel((long) 1,"perry","luigi","sdfsdf","123ed","male","iowa","usa","adsdasd",true,UserRole.Role_Admin);
+		User nm = new User((long) 1,"perry","luigi","sdfsdf","123ed","male","iowa","usa","adsdasd",true,UserRole.Role_Admin);
 		
 		try {
 			this.json.write(nm);

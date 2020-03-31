@@ -1,5 +1,7 @@
 package com.doclink.model;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,21 +10,24 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 
 @Entity
 @Data
 
-public class PostModel {
+public class Post {
 	
 
 	
 
 
 	
-	public PostModel(Long id, String title, String description, String date, PostType type, UserModel user) {
+
+	public Post(Long id, String title, String description, String date, PostType type, User user
+			) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -30,8 +35,10 @@ public class PostModel {
 		this.date = date;
 		this.type = type;
 		this.user = user;
+		
 	}
-	public PostModel() {
+
+	public Post() {
 		
 	}
 
@@ -47,10 +54,12 @@ public class PostModel {
 
 	@Enumerated(EnumType.STRING)
 	private PostType type;
-	@OneToOne(mappedBy = "post", cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = false)
-	private UserModel user;
+
+	@ManyToOne
+	private User user;
 	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "posts",cascade = CascadeType.ALL)
+	private List<Comment> comments;
 	
 }
 
