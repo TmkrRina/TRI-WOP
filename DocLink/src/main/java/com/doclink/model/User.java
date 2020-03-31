@@ -21,6 +21,8 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.UniqueElements;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import javax.persistence.UniqueConstraint;
 
@@ -69,11 +71,12 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "user",cascade = CascadeType.ALL)
-	private List<Post> posts;
+//	@OneToMany(fetch = FetchType.LAZY,mappedBy = "user",cascade = CascadeType.ALL)
+//	private List<Post> posts;
 	
 //	 @OneToMany(cascade=CascadeType.ALL)
 //	    @JoinColumn(name="user")
+//	 @JsonIgnore
 //	    private List<Comment> comments;
-//	
+	
 }

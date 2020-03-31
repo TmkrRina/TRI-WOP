@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Entity
@@ -59,6 +61,7 @@ public class Post {
 	private User user;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "posts",cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Comment> comments;
 	
 }
