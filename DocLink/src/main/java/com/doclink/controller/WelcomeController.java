@@ -1,14 +1,15 @@
-package com.doclink.api;
+package com.doclink.controller;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Controller {
+public class WelcomeController {
 
     @GetMapping("/")
-    public String index() {
-        return "{\"location\": \"homepage\", \"message\": \"Welcome\"}";
+    public String welcomeDoclinkUser() {
+        return "User added succesfully...";
     }
+
 }
