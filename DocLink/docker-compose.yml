@@ -34,6 +34,21 @@ services:
 
     volumes:
       - .:/DocLink
+      
+  mysql_admin:
+    image:  phpmyadmin/phpmyadmin
+      
+    networks:
+      - backend
+        
+    ports:
+      - "8001:80"
+      
+    environment:    
+      MYSQL_ROOT_PASSWORD: doclink
+      MYSQL_DATABASE: doclink
+      MYSQL_USER: doclink
+      MYSQL_PASSWORD: doclink
 
 
 networks:
