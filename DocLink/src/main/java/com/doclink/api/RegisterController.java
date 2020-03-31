@@ -2,6 +2,8 @@ package com.doclink.api;
 
 import com.doclink.validation.DoctorRegistrationForm;
 import com.doclink.validation.UserRegistrationForm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,6 +13,8 @@ import javax.validation.Valid;
 
 @RestController
 public class RegisterController {
+
+
     //private final AtomicLong counter = new AtomicLong();
 
 //    UserServiceImpl userService; :Todo add the UserService
