@@ -69,6 +69,7 @@ public class DoclinkUserPrincipal implements UserDetails {
         this.country=user.getCountry();
         this.profileImg = user.getProfileImg();
         this.confirmedEmail=user.getConfirmedEmail();
+        this.password = user.getPassword();
     }
 
     public Long getId() {
@@ -97,13 +98,7 @@ public class DoclinkUserPrincipal implements UserDetails {
 
         List <GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().name()));
-//        UserRole.valueOf(userModel.getRole().toString());
-//                userModel.getRole().map(role ->
-//                new SimpleGrantedAuthority(role.name()))
-//                .collect(Collectors.toList());
 
-        // Doing that without the main should be done first and then we will implement the above
-        // code in the second phase of the project
 
         return new DoclinkUserPrincipal(
                 user,

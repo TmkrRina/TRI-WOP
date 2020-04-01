@@ -46,6 +46,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     That would avoid the following database hit. It's completely up to you.
                  */
                 UserDetails userDetails = doclinkUserDetailService.loadUserById(userId);
+                System.out.printf("+++++++++++++++++++++++++++++++++++++%n%s%n+++++++++++++++++++++++++++++++++++++", userDetails);
+
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

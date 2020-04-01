@@ -20,9 +20,9 @@ public class JwtTokenGenerator {
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(Authentication authentication) {
 
-        DoclinkUserPrincipal doclinkUserPrincipal = (DoclinkUserPrincipal) userDetails;
+        DoclinkUserPrincipal doclinkUserPrincipal = (DoclinkUserPrincipal) authentication.getPrincipal();
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 

@@ -21,7 +21,7 @@ public class DoclinkUserDetailService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User doclinkUser = doclinkUserRepository.findByUsername(email)
+        User doclinkUser = doclinkUserRepository.findByEmail(email)
                 .orElseThrow(() ->
                         new UsernameNotFoundException("User not found with username or email : " + email)
                 );

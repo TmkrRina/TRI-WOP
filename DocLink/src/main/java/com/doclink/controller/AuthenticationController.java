@@ -10,12 +10,17 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin
-public class Authentication {
+public class AuthenticationController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -26,23 +31,25 @@ public class Authentication {
     DoclinkUserDetailService doclinkUserDetailService;
 
     @RequestMapping(value = "/api/auth", method = RequestMethod.POST)
-    public ResponseEntity<?> authenticate(@RequestBody JwtAuthDto jwtAuthDto) throws Exception {
-        validateCredentials(jwtAuthDto.getEmail(), jwtAuthDto.getPassword());
+    public ResponseEntity<?> authenticate(@Valid @RequestBody JwtAuthDto jwtAuthDto, BindingResult result, Errors errors) throws Exception {
+
+        Authentication authentication = validateCredentials(jwtAuthDto.getEmail(), jwtAuthDto.getPassword());
 
         final UserDetails userDetails = doclinkUserDetailService.loadUserByUsername(jwtAuthDto.getEmail());
+        final String token = jwtTokenGenerator.generateToken(authentication);
 
-        final String token = jwtTokenGenerator.generateToken(userDetails);
 
         return ResponseEntity.ok(new JwtResponseDto(token, userDetails));
 
     }
 
-    private void validateCredentials(String email, String password) throws Exception {
+    private Authentication validateCredentials(String email, String password) throws Exception {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+           return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
+            System.out.printf("+++++++++++++++++++++++++++++++++++++%n%s%n+++++++++++++++++++++++++++++++++++++", e);
             throw new Exception("INVALID_CREDENTIALS", e);
         }
     }
