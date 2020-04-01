@@ -1,10 +1,15 @@
 package com.doclink.dto;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class JwtAuthDto implements Serializable {
-    private String password;
+
+    @NotNull(message ="email is required")
     private String email;
+
+    @NotNull(message ="password is required")
+    private String password;
 
     public JwtAuthDto(String password, String email) {
         this.password = password;
