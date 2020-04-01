@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,11 +19,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /** As we are going to use the database configuration for security this class
  *  inherited web security configuration adapter.
  */
 @Configuration
+@EnableWebSecurity
 @EnableGlobalMethodSecurity (
         securedEnabled = true,
         jsr250Enabled = true,
@@ -43,17 +48,25 @@ public class DoclinkSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
+
         return new JwtAuthenticationFilter();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(doclinkUserDetailService)
-        .passwordEncoder(passwordEncoder());
+        .passwordEncoder(getPasswordEncoder());
     }
 
+    @Bean(BeanIds.AUTHENTICATION_MANAGER)
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -71,14 +84,18 @@ public class DoclinkSecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                 .authorizeRequests()
-                .antMatchers("/images/**").permitAll()
-                .antMatchers("/js/**").permitAll()
-                .antMatchers("/api/register/doctor").hasRole("Role_Doctor")
-                //.antMatchers("/api/users/:id/posts", "/api/users/:id/comments").hasRole("Role_Patient")
-                .antMatchers(HttpMethod.POST, "/api/register")
-                    .permitAll()
-                .anyRequest()
-                    .authenticated();
+                .antMatchers("/api/Admin").hasRole(UserRole.Role_Admin.name())
+                .antMatchers("/api/user/**").hasAnyRole(UserRole.Role_Patient.name(), UserRole.Role_Admin.name())
+                .antMatchers("/api/doctor").hasAnyRole(UserRole.Role_Doctor.name(), UserRole.Role_Admin.name())
+                .antMatchers("/").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login").permitAll()
+                .and()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
 }

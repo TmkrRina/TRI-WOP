@@ -30,7 +30,7 @@ import javax.persistence.UniqueConstraint;
 public class UserModel {
 
 	public UserModel(Long id, String fname, String lname, String email, String password, String gender, String state,
-					 String country, String profile_img, Boolean confirmed_email) {
+					 String country, String profile_img, Boolean confirmed_email, UserRole role) {
 		super();
 		this.id = id;
 		this.fname = fname;
@@ -42,6 +42,7 @@ public class UserModel {
 		this.country = country;
 		this.profile_img = profile_img;
 		this.confirmed_email = confirmed_email;
+		this.role = role;
 
 	}
 	public UserModel() {
@@ -60,9 +61,9 @@ public class UserModel {
 	private String country;
 	private String profile_img;
 	private Boolean confirmed_email;
-	private Set<String> role = new HashSet<>();
-	@OneToOne(fetch = FetchType.LAZY)
+	private UserRole role;
+//	@OneToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name="user_id")
-	private PostModel post;
+//	private PostModel post;
 }
 

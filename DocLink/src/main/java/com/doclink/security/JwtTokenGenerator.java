@@ -21,12 +21,12 @@ public class JwtTokenGenerator {
 
     public String generateToken(Authentication auth) {
 
-        DoclinkUserPrincipal doclinkUserPrincipal = (DoclinkUserPrincipal) auth.getPrincipal();
+        DoclinkSecurityUser doclinkSecurityUser = (DoclinkSecurityUser) auth.getPrincipal();
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
-                .setSubject(Long.toString(doclinkUserPrincipal.getId()))
+                .setSubject(Long.toString(doclinkSecurityUser.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
