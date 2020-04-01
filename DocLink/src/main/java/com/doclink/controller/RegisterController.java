@@ -1,4 +1,4 @@
-package com.doclink.api;
+package com.doclink.controller;
 
 import com.doclink.events.OnRegistrationCompleteEvent;
 import com.doclink.model.Doctor;
