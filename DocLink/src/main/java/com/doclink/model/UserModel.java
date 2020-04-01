@@ -25,7 +25,6 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Data
-@Builder
 @Getter
 @Setter
 public class UserModel {
@@ -61,10 +60,9 @@ public class UserModel {
 	private String country;
 	private String profile_img;
 	private Boolean confirmed_email;
-	@Enumerated(EnumType.STRING)
-	private Set<UserRole> role = new HashSet<>();
+	private Set<String> role = new HashSet<>();
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="user_id")
+//	@JoinColumn(name="user_id")
 	private PostModel post;
 }
 

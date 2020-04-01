@@ -1,6 +1,7 @@
 package com.doclink.config;
 
 
+import com.doclink.model.UserRole;
 import com.doclink.security.JwtAuthenticationEntryPoint;
 import com.doclink.security.JwtAuthenticationFilter;
 import com.doclink.security.DoclinkUserDetailService;
@@ -21,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  *  inherited web security configuration adapter.
  */
 @Configuration
-@EnableWebSecurity
 @EnableGlobalMethodSecurity (
         securedEnabled = true,
         jsr250Enabled = true,
@@ -39,7 +39,7 @@ public class DoclinkSecurityConfig extends WebSecurityConfigurerAdapter {
     private DoclinkUserDetailService doclinkUserDetailService;
 
     @Autowired
-    private JwtAuthenticationEntryPoint nonauthorizedHandeler;
+    private JwtAuthenticationEntryPoint unauthorizedHandeler;
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -65,27 +65,17 @@ public class DoclinkSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                     .disable()
                 .exceptionHandling()
-                    .authenticationEntryPoint(nonauthorizedHandeler)
+                    .authenticationEntryPoint(unauthorizedHandeler)
                     .and()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                 .authorizeRequests()
-                .antMatchers("/",
-                        "/favicon.ico",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js")
-                    .permitAll()
-                .antMatchers("/api/auth/**")
-                    .permitAll()
-                .antMatchers("/api/users/:id/posts", "/api/users/:id/comments")
-                    .authenticated()
-                .antMatchers(HttpMethod.GET, "/api/posts/**", "/api/users/**")
+                .antMatchers("/images/**").permitAll()
+                .antMatchers("/js/**").permitAll()
+                .antMatchers("/api/register/doctor").hasRole("Role_Doctor")
+                //.antMatchers("/api/users/:id/posts", "/api/users/:id/comments").hasRole("Role_Patient")
+                .antMatchers(HttpMethod.POST, "/api/register")
                     .permitAll()
                 .anyRequest()
                     .authenticated();

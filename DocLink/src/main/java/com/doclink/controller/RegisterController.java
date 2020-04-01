@@ -1,4 +1,4 @@
-package com.doclink.api;
+package com.doclink.controller;
 
 import com.doclink.validation.DoctorRegistrationForm;
 import com.doclink.validation.UserRegistrationForm;
