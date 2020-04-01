@@ -1,4 +1,4 @@
-package dto;
+package com.doclink.dto;
 
 import com.doclink.model.Comment;
 import com.doclink.model.Post;
@@ -6,9 +6,9 @@ import com.doclink.model.Post;
 import lombok.Data;
 
 @Data
-public class CommentDTO {
+public class CommentDto {
 	
-	public CommentDTO(Comment comment) {
+	public CommentDto(Comment comment) {
 		
 		this.date = comment.getDate();
 		this.description = comment.getDescription();

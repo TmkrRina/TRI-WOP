@@ -47,8 +47,7 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	//user id;
-	
+
 	private String title;
 	private String description;
 	private String date;

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.doclink.model.Post;
 import com.doclink.repo.PostRepo;
 
-import dto.PostDTO;
+import com.doclink.dto.PostDto;
 
 @Service
 public class PostService {
@@ -14,11 +14,11 @@ public class PostService {
 @Autowired
 PostRepo pr;
 
-public PostDTO post(Post posts) {
+public PostDto post(Post posts) {
 	
 	Post pms = pr.save(posts);
 	
-	PostDTO pst = new PostDTO(pms);
+	PostDto pst = new PostDto(pms);
 	
 	return pst;
 	

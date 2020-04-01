@@ -1,7 +1,8 @@
 package com.doclink.service;
 
-import com.doclink.validation.DoctorRegistrationForm;
+
+import com.doclink.model.Doctor;
 
 public interface IDoctorService {
-    public abstract void createDoctor(DoctorRegistrationForm doctorRegistrationForm);
+    Doctor createDoctor(Doctor doctor);
 }
