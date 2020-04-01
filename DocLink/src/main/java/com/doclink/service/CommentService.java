@@ -6,18 +6,18 @@ import org.springframework.stereotype.Service;
 import com.doclink.model.Comment;
 import com.doclink.repo.CommentRepo;
 
-import dto.CommentDTO;
+import com.doclink.dto.CommentDto;
 
 @Service
 public class CommentService {
 @Autowired
 CommentRepo cr;
 
-public CommentDTO comment(Comment comment) {
+public CommentDto comment(Comment comment) {
 	
 	Comment cms = cr.save(comment);
 	
-	CommentDTO csto = new CommentDTO(cms);
+	CommentDto csto = new CommentDto(cms);
 	
 	return csto;
 	

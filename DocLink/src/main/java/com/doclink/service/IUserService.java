@@ -1,14 +1,11 @@
 package com.doclink.service;
 
-import com.doclink.api.VerificationToken;
-import com.doclink.validation.UserRegistrationForm;
-import org.apache.catalina.User;
+import com.doclink.model.User;
+import com.doclink.model.VerificationToken;
+
 
 public interface IUserService {
-    public abstract void createUser(UserRegistrationForm userRegistrationForm);
-
-   // User registerNewUserAccount(UserDto accountDto)
-       //     throws EmailExistsException;
+    User createUser(User user);
 
     User getUser(String verificationToken);
 
@@ -16,6 +13,7 @@ public interface IUserService {
 
     void createVerificationToken(User user, String token);
 
-    VerificationToken getVerificationToken(String VerificationToken);
+    VerificationToken getVerificationToken(String verificationToken);
+
 }
 

@@ -1,45 +1,52 @@
 package com.doclink.api;
 
-import com.doclink.validation.DoctorRegistrationForm;
-import com.doclink.validation.UserRegistrationForm;
+import com.doclink.events.OnRegistrationCompleteEvent;
+import com.doclink.model.Doctor;
+import com.doclink.model.User;
+import com.doclink.service.DoctorService;
+import com.doclink.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
 
 import javax.validation.Valid;
 
 @RestController
 public class RegisterController {
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
+    @Autowired
+    private DoctorService doctorService;
 
-    //private final AtomicLong counter = new AtomicLong();
-
-//    UserServiceImpl userService; :Todo add the UserService
+    @Autowired
+    private UserService userService;
 
     @PostMapping ("/api/register")
-    public @ResponseBody String register (@Valid UserRegistrationForm userRegistrationForm, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-//            :TODO Send a make sense message for form errors
-            return "Form has errors";
+    public @ResponseBody User register (@Valid @RequestBody User user, BindingResult result, WebRequest request, Errors errors) {
+        if(result.hasErrors()) {
+            return user;
         } else {
-//            UserServiceImpl.createUser(userRegistrationForm); :TODO write how to save the user logic by calling on the UserService
-//            :Todo Send email confirmation mail to the user through the EmailNotificationServiceImpl background job
-            return "Success";
+            user = userService.createUser(user);
+            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), request.getContextPath()));
+            return user;
         }
     }
 
     @PostMapping("/api/register/doctor")
-    public @ResponseBody
-    String register (@Valid DoctorRegistrationForm DoctorRegistrationForm, BindingResult bindingResult) {
+    public @ResponseBody String registerDoctor(@Valid @RequestBody Doctor doctor, BindingResult bindingResult, WebRequest request, Errors errors) {
         if(bindingResult.hasErrors()) {
 //            :TODO Send a make sense message for form errors
             return "Form has errors";
         } else {
-//            DoctorServiceImpl.createDoctor(DoctorRegistrationForm); :TODO write how to save the user logic by calling on the UserService
-//            :Todo Send email confirmation mail to the user through the EmailNotificationServiceImpl background job
+            doctor = userService.createDoctor(doctor);
+            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(doctor.getUser(), request.getLocale(), request.getContextPath()));
             return "Success";
         }
     }

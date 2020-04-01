@@ -1,6 +1,6 @@
-package com.doclink.api;
+package com.doclink.model;
 
-import org.apache.catalina.User;
+import com.doclink.model.User;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -20,6 +20,47 @@ public class VerificationToken {
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
+
+    public VerificationToken(String token, User user) {
+        this.token = token;
+        this.user = user;
+    }
+
+    public static int getEXPIRATION() {
+        return EXPIRATION;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
+    }
 
     private Date expiryDate;
 

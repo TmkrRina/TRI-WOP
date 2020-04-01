@@ -1,7 +1,9 @@
 package com.doclink.api;
 
-import com.doclink.model.Model;
-import com.doclink.service.IUserService;
+//import com.doclink.model.Model;
+
+import com.doclink.model.VerificationToken;
+import com.doclink.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,7 +16,7 @@ import java.util.Locale;
 @RestController
 public class EmailConfirmationController {
 @Autowired
-    private IUserService service;
+    private UserService service;
 
 @GetMapping("/api/confirmEmail")
     public String confirmRegistration (WebRequest request, Model model, @RequestParam ("token") String token) {

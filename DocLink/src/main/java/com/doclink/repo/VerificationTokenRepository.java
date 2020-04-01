@@ -1,5 +1,6 @@
-package com.doclink.api;
+package com.doclink.repo;
 
+import com.doclink.model.VerificationToken;
 import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

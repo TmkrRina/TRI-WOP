@@ -16,12 +16,11 @@ import com.doclink.model.UserRole;
 import com.doclink.service.CommentService;
 import com.doclink.service.DoctorService;
 import com.doclink.service.PostService;
-import com.doclink.service.UserService;
 
-import dto.CommentDTO;
-import dto.DoctorDTO;
-import dto.PostDTO;
-import dto.UserDTO;
+import com.doclink.dto.CommentDto;
+import com.doclink.dto.DoctorDto;
+import com.doclink.dto.PostDto;
+import com.doclink.dto.UserDto;
 
 @RestController
 public class Controller {
@@ -39,7 +38,7 @@ public class Controller {
 	List<Post> posts = new ArrayList<Post>();
 
 	@GetMapping("/user")
-	public UserDTO add() {
+	public UserDto add() {
 		User nm2 = new User((long) 4, "perry", "luigi", "asdsfghjklkfds", "123ed", "male", "iowa", "usa",
 				"adsdasd", true, UserRole.Role_Admin);
 		
@@ -47,7 +46,7 @@ public class Controller {
 	}
 
 	@GetMapping("/post")
-	private PostDTO post() {
+	private PostDto post() {
 		User nm2 = new User((long) 1, "perry", "luigi", "asdsfghjklkfds", "123ed", "male", "iowa", "usa",
 				"adsdasd", true, UserRole.Role_Admin);
 
@@ -59,7 +58,7 @@ public class Controller {
 	}
 
 	@GetMapping("/comment")
-	private CommentDTO comment() {
+	private CommentDto comment() {
 		User nm2 = new User((long) 1, "perry", "luigi", "asdsfghjklkfds", "123ed", "male", "iowa", "usa",
 				"adsdasd", true, UserRole.Role_Admin);
 		Post pm = new Post((long) 7, "hi", "jhadsjfalk", "12/34/67", PostType.Annoucement, nm2);
@@ -68,7 +67,7 @@ public class Controller {
 	}
 
 	@GetMapping("/doctor")
-	private DoctorDTO doctor() {
+	private DoctorDto doctor() {
 		User nm2 = new User((long) 1, "perry", "luigi", "asdsfghjklkfds", "123ed", "male", "iowa", "usa",
 				"adsdasd", true, UserRole.Role_Admin);
 		Doctor dc = new Doctor((long) 1, "sdgfbdsjkhfgdsuyifhdsbuyf", "fjhsdfgdsvfsdf", nm2);
