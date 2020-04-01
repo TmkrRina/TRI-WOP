@@ -10,17 +10,17 @@ import com.doclink.dto.CommentDto;
 
 @Service
 public class CommentService {
-@Autowired
-CommentRepo cr;
+    @Autowired
+    CommentRepo cr;
 
-public CommentDto comment(Comment comment) {
-	
-	Comment cms = cr.save(comment);
-	
-	CommentDto csto = new CommentDto(cms);
-	
-	return csto;
-	
-}
-	
+    public CommentDto comment(Comment comment) {
+
+        Comment cms = cr.save(comment);
+
+        CommentDto csto = new CommentDto(cms);
+
+        return csto;
+
+    }
+
 }

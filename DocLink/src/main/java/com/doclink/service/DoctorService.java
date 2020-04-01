@@ -10,16 +10,17 @@ import com.doclink.dto.DoctorDto;
 
 @Service
 public class DoctorService {
-	@Autowired
-	DoctorRepo doctor;
-	public DoctorDto doctor(Doctor doc2) {
-		Doctor doc = doctor.save(doc2);
-		
-		DoctorDto docDto = new DoctorDto(doc);
-		
-		
-		return docDto;
+    @Autowired
+    DoctorRepo doctor;
 
-		
-	}
+    public DoctorDto doctor(Doctor doc2) {
+        Doctor doc = doctor.save(doc2);
+
+        DoctorDto docDto = new DoctorDto(doc);
+
+
+        return docDto;
+
+
+    }
 }

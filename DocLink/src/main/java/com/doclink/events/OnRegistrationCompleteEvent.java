@@ -6,7 +6,6 @@ import org.springframework.context.ApplicationEvent;
 
 import java.util.Locale;
 
-@Data
 public class OnRegistrationCompleteEvent extends ApplicationEvent {
     private String appUrl;
     private Locale locale;

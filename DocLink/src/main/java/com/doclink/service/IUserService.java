@@ -9,7 +9,7 @@ public interface IUserService {
 
     User getUser(String verificationToken);
 
-    void saveRegisteredUser(User user);
+    void confirmUser(User user);
 
     void createVerificationToken(User user, String token);
 

@@ -1,6 +1,7 @@
 package com.doclink.service;
 
 //import com.doclink.dto.UserDto;
+
 import com.doclink.model.VerificationToken;
 import com.doclink.model.Doctor;
 import com.doclink.model.User;
@@ -61,7 +62,8 @@ public class UserService implements IUserService, IDoctorService {
     }
 
 
-    public void saveRegisteredUser(User user) {
+    public void confirmUser(User user) {
+        user.setConfirmedEmail(true);
         userRepo.save(user);
     }
 

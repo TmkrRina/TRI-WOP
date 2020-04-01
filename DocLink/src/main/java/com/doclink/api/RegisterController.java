@@ -1,8 +1,10 @@
 package com.doclink.api;
 
+import com.doclink.dto.UserDto;
 import com.doclink.events.OnRegistrationCompleteEvent;
 import com.doclink.model.Doctor;
 import com.doclink.model.User;
+import com.doclink.model.UserRole;
 import com.doclink.service.DoctorService;
 import com.doclink.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +31,15 @@ public class RegisterController {
     private UserService userService;
 
     @PostMapping ("/api/register")
-    public @ResponseBody User register (@Valid @RequestBody User user, BindingResult result, WebRequest request, Errors errors) {
+    public @ResponseBody
+    UserDto register (@Valid @RequestBody User user, BindingResult result, WebRequest request, Errors errors) {
         if(result.hasErrors()) {
-            return user;
+            return new UserDto(user);
         } else {
+            user.setRole(UserRole.ROLE_PATIENT);
             user = userService.createUser(user);
-            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), request.getContextPath()));
-            return user;
+//            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), request.getContextPath()));
+            return new UserDto(user);
         }
     }
 
