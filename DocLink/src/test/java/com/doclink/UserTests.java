@@ -30,7 +30,7 @@ class UserTests {
 	
 	@Test
 	void test() {
-		User nm = new User((long) 1,"perry","luigi","sdfsdf","123ed","male","iowa","usa","adsdasd",true,UserRole.Role_Admin);
+		User nm = new User((long) 1,"perry","luigi","sdfsdf","123ed","male","iowa","usa","adsdasd",true,UserRole.ROLE_ADMIN);
 		
 		try {
 			this.json.write(nm);

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.doclink.model.Doctor;
-import com.doclink.repo.DoctorRepo;
+import com.doclink.repositories.DoctorRepo;
 
 import com.doclink.dto.DoctorDto;
 

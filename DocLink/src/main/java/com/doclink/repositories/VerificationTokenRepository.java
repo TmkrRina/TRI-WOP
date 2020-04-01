@@ -1,4 +1,4 @@
-package com.doclink.repo;
+package com.doclink.repositories;
 
 import com.doclink.model.VerificationToken;
 import org.apache.catalina.User;

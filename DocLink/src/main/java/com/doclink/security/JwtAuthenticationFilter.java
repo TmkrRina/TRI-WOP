@@ -1,6 +1,7 @@
 package com.doclink.security;
 
 
+import com.doclink.service.DoclinkUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +19,7 @@ import java.io.IOException;
 /**
  * Finally, Let’s write the JWTAuthenticationFilter to get the JWT token from the request,
  * validate it, load the user associated with the token, and pass it to Spring Security -
- *
+ * <p>
  * Documentation says org.springframework.web.filter.OncePerRequestFilter
  * "guarantees to be just executed once per request".
  */
@@ -29,6 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtTokenGenerator jwtTokenGenerator;
     @Autowired
     private DoclinkUserDetailService doclinkUserDetailService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {

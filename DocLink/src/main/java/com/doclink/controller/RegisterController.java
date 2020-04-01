@@ -36,7 +36,7 @@ public class RegisterController {
         if(result.hasErrors()) {
             return new UserDto(user);
         } else {
-            user.setRole(UserRole.ROLE_PATIENT);
+
             user = userService.createUser(user);
 //            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), request.getContextPath()));
             return new UserDto(user);

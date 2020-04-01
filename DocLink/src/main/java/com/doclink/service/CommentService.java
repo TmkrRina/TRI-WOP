@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.doclink.model.Comment;
-import com.doclink.repo.CommentRepo;
+import com.doclink.repositories.CommentRepo;
 
 import com.doclink.dto.CommentDto;
 

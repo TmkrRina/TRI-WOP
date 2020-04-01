@@ -4,6 +4,7 @@ import com.doclink.model.User;
 import com.doclink.model.UserRole;
 
 import lombok.Data;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
 public class UserDto {
@@ -17,6 +18,15 @@ public class UserDto {
 	private String profileImg;
 	private Boolean confirmedEmail;
 	private UserRole role;
+	private String username;
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -102,6 +112,5 @@ public class UserDto {
 		this.profileImg = user.getProfileImg();
 		this.confirmedEmail=user.getConfirmedEmail();
 		this.role = user.getRole();
-		
 	}
 }

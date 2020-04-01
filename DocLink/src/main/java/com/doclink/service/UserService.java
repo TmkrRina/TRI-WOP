@@ -2,16 +2,20 @@ package com.doclink.service;
 
 //import com.doclink.dto.UserDto;
 
+import com.doclink.model.UserRole;
 import com.doclink.model.VerificationToken;
 import com.doclink.model.Doctor;
 import com.doclink.model.User;
-import com.doclink.repo.DoctorRepo;
-import com.doclink.repo.UserRepo;
-import com.doclink.repo.VerificationTokenRepository;
+import com.doclink.repositories.DoctorRepo;
+import com.doclink.repositories.UserRepo;
+import com.doclink.repositories.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,6 +28,9 @@ public class UserService implements IUserService, IDoctorService {
 
     @Autowired
     private VerificationTokenRepository tokenRepository;
+
+    @Autowired
+    private PasswordEncoder bCryptPasswordEncoder;
 
 //    public User registerNewUserAccount(UserDto userDto) throws EmailExistsException {
 //
@@ -43,7 +50,7 @@ public class UserService implements IUserService, IDoctorService {
 //    }
 
     private boolean emailExist(String email) {
-        User user = userRepo.findByEmail(email);
+        Optional<User> user = userRepo.findByEmail(email);
         if (user != null) {
             return true;
         }
@@ -74,6 +81,9 @@ public class UserService implements IUserService, IDoctorService {
 
     @Override
     public User createUser(User user) {
+        user.setRole(UserRole.ROLE_PATIENT);
+        user.setUsername(user.getEmail());
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepo.save(user);
         return user;
     }

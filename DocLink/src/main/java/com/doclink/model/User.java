@@ -60,6 +60,17 @@ public class User {
 	@NotNull
 	private String email;
 
+	@Column(unique = true, nullable = false)
+	private String username;
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 	@NotEmpty(message = "Please provide a password")
 	@NotNull
 	private String password;
@@ -125,6 +136,10 @@ public class User {
 		return country;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
 	public void setCountry(String country) {
 		this.country = country;
 	}
@@ -155,7 +170,7 @@ public class User {
 
 //	@OneToMany(fetch = FetchType.LAZY,mappedBy = "user",cascade = CascadeType.ALL)
 //	private List<Post> posts;
-	
+
 //	 @OneToMany(cascade=CascadeType.ALL)
 //	    @JoinColumn(name="user")
 //	 @JsonIgnore

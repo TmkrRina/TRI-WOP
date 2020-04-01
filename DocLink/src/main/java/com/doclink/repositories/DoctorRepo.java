@@ -1,4 +1,4 @@
-package com.doclink.repo;
+package com.doclink.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 

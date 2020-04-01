@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -13,15 +14,15 @@ import java.util.Date;
 public class JwtTokenGenerator {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenGenerator.class);
 
-    @Value("${app.jwtSecret}")
+    @Value("${app.secret}")
     private String jwtSecret;
 
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
-    public String generateToken(Authentication auth) {
+    public String generateToken(UserDetails userDetails) {
 
-        DoclinkUserPrincipal doclinkUserPrincipal = (DoclinkUserPrincipal) auth.getPrincipal();
+        DoclinkUserPrincipal doclinkUserPrincipal = (DoclinkUserPrincipal) userDetails;
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
