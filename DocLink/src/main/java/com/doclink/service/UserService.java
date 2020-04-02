@@ -1,21 +1,23 @@
 package com.doclink.service;
 
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.doclink.model.Doctor;
+import com.doclink.model.User;
+
 //import com.doclink.dto.UserDto;
 
 import com.doclink.model.UserRole;
 import com.doclink.model.VerificationToken;
-import com.doclink.model.Doctor;
-import com.doclink.model.User;
 import com.doclink.repositories.DoctorRepo;
 import com.doclink.repositories.UserRepo;
 import com.doclink.repositories.VerificationTokenRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 @Transactional

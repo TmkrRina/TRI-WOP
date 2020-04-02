@@ -1,12 +1,7 @@
 package com.doclink.controller;
 
-import com.doclink.dto.UserDto;
-import com.doclink.events.OnRegistrationCompleteEvent;
-import com.doclink.model.Doctor;
-import com.doclink.model.User;
-import com.doclink.model.UserRole;
-import com.doclink.service.DoctorService;
-import com.doclink.service.UserService;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.validation.BindingResult;
@@ -17,7 +12,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
-import javax.validation.Valid;
+import com.doclink.dto.UserDto;
+import com.doclink.events.OnRegistrationCompleteEvent;
+import com.doclink.model.Doctor;
+import com.doclink.model.User;
+import com.doclink.service.DoctorService;
+import com.doclink.service.UserService;
 
 @RestController
 public class RegisterController {

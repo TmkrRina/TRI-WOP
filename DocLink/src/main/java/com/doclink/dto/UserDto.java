@@ -4,7 +4,6 @@ import com.doclink.model.User;
 import com.doclink.model.UserRole;
 
 import lombok.Data;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
 public class UserDto {

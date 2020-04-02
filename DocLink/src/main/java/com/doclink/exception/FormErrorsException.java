@@ -1,11 +1,8 @@
 package com.doclink.exception;
 
-import org.springframework.validation.Errors;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.validation.Errors;
 
 public class FormErrorsException extends RuntimeException {
 
