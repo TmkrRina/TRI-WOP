@@ -2,21 +2,17 @@ package com.doclink.model;
 
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -55,6 +51,26 @@ public class User {
 	private String firstName;
 	private String lastName;
 
+	@CreationTimestamp
+	private LocalDateTime createDateTime;
+
+	@UpdateTimestamp
+	private LocalDateTime updateDateTime;
+
+    public User(String email, String password) {
+    	this.email = email;
+    	this.password = password;
+    }
+
+
+    public LocalDateTime getCreateDateTime() {
+		return createDateTime;
+	}
+
+	public LocalDateTime getUpdateDateTime() {
+		return updateDateTime;
+	}
+
 	@Column(name = "EMAIL", unique = true, nullable = false)
 	@NotEmpty(message = "Please provide a name")
 	@NotNull
@@ -73,6 +89,7 @@ public class User {
 
 	@NotEmpty(message = "Please provide a password")
 	@NotNull
+	@JsonIgnore
 	private String password;
 
 	private String gender;
@@ -168,12 +185,5 @@ public class User {
 		this.role = role;
 	}
 
-//	@OneToMany(fetch = FetchType.LAZY,mappedBy = "user",cascade = CascadeType.ALL)
-//	private List<Post> posts;
-
-//	 @OneToMany(cascade=CascadeType.ALL)
-//	    @JoinColumn(name="user")
-//	 @JsonIgnore
-//	    private List<Comment> comments;
 	
 }

@@ -2,39 +2,46 @@ package com.doclink.controller;
 
 import javax.validation.Valid;
 
+import com.doclink.model.BannerAnnouncement;
+import com.doclink.repositories.BannerAnnouncementRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.bind.annotation.*;
 
-import com.doclink.dto.BannerAnnouncementDTO;
 import com.doclink.exception.FormErrorsException;
-import com.doclink.model.Post;
 import com.doclink.service.BannerAnnouncementService;
+
 
 @RestController
 public class BannerAnnouncementController {
 	@Autowired
 	BannerAnnouncementService bannerAnnoucementService;
 
-	@PostMapping("/api/users/{id}/posts")
-	public @ResponseBody BannerAnnouncementDTO create(@Valid @RequestBody Post post, BindingResult result,
-			WebRequest request, Errors errors,@PathVariable("id") Long id) throws Exception, FormErrorsException {
+	@Autowired
+	BannerAnnouncementRepo bannerAnnouncementRepo;
+
+	@PostMapping("/api/admin/{id}/banner-announcements")
+	public BannerAnnouncement create(
+			@Valid @RequestBody BannerAnnouncement bannerAnnouncement,
+			BindingResult result,
+			Errors errors,
+			@PathVariable("id") Long id
+	) throws FormErrorsException {
 		if (result.hasErrors()) {
 			throw new FormErrorsException(errors);
 		} else {
 
-			post = bannerAnnoucementService.creatPost(post, id);
+			bannerAnnouncement = bannerAnnoucementService.create(bannerAnnouncement, id);
 			// eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user,
 			// request.getLocale(), request.getContextPath()));
 		}
-		return new BannerAnnouncementDTO(post);
+		return bannerAnnouncement;
+	}
+
+	@GetMapping("/api/banner-announcements") // public endpoint
+	public Iterable<BannerAnnouncement> getAll() {
+		return bannerAnnouncementRepo.findAll();
 	}
 
 }

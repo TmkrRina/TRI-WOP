@@ -40,7 +40,7 @@ public class AuthenticationController {
     DoclinkUserDetailService doclinkUserDetailService;
 
     @RequestMapping(value = "/api/auth", method = RequestMethod.POST)
-    public ResponseEntity<?> authenticate(@Valid @RequestBody JwtAuthDto jwtAuthDto, BindingResult result, Errors errors) throws Exception, FormErrorsException {
+    public JwtResponseDto authenticate(@Valid @RequestBody JwtAuthDto jwtAuthDto, BindingResult result, Errors errors) throws Exception, FormErrorsException {
 
         if(result.hasErrors()) {
             throw new FormErrorsException(errors);
@@ -54,7 +54,7 @@ public class AuthenticationController {
         final String token = jwtTokenGenerator.generateToken(authentication);
 
 
-        return ResponseEntity.ok(new JwtResponseDto(token, userDetails));
+        return new JwtResponseDto(token, userDetails);
 
     }
 

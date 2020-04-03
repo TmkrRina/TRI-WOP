@@ -1,33 +1,36 @@
 package com.doclink.service;
 
-import java.util.Optional;
-
+import com.doclink.model.BannerAnnouncement;
+import com.doclink.repositories.BannerAnnouncementRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.doclink.exception.ResourceNotFoundException;
 import com.doclink.model.Post;
-import com.doclink.model.User;
-import com.doclink.repositories.PostRepo;
-import com.doclink.repositories.UserRepo;
 
 @Service
-public class BannerAnnouncementService implements IBannerAnnouncement {
-	@Autowired
-	private PostRepo postRepo;
-	@Autowired
-	private UserRepo userRepo;
+public class BannerAnnouncementService extends PostService implements IPost {
+    @Autowired
+    private BannerAnnouncementRepo bannerAnnouncementRepo;
 
-	public Post creatPost(Post post, long id) {
-		post.setDescription(post.getDescription());
-		post.setDate(post.getDate());
-		Optional<User> user = userRepo.findById(id);
-		user.orElseThrow(() -> new ResourceNotFoundException("User not found", "id", Long.valueOf(id)));
-		post.setUser(user.get());
-		postRepo.save(post);
-		return post;
-	}
+    @Override
+    public BannerAnnouncement create(Post post, Long id) {
+        BannerAnnouncement bannerAnnouncement = (BannerAnnouncement) post;
+        bannerAnnouncement.setDescription(bannerAnnouncement.getDescription());
+        bannerAnnouncement.setDate(bannerAnnouncement.getDate());
+        bannerAnnouncement.setUser(getUser(id));
+        bannerAnnouncementRepo.save(bannerAnnouncement);
+        return bannerAnnouncement;
+    }
 
+
+    @Override
+    public BannerAnnouncement update(Post announcement) {
+        BannerAnnouncement oldAnnouncement = bannerAnnouncementRepo.findById(announcement.getId()).get();
+
+        oldAnnouncement.setTitle(announcement.getTitle());
+        oldAnnouncement.setDescription(announcement.getDescription());
+
+        bannerAnnouncementRepo.save(oldAnnouncement);
+
+        return oldAnnouncement;
+    }
 }

@@ -1,26 +1,20 @@
 package com.doclink.service;
 
+import com.doclink.exception.ResourceNotFoundException;
+import com.doclink.model.HealthIssue;
+import com.doclink.model.User;
+import com.doclink.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import com.doclink.model.Post;
-import com.doclink.repositories.PostRepo;
+import java.util.Optional;
 
-import com.doclink.dto.PostDto;
+public abstract class PostService {
+    @Autowired
+    private UserRepo userRepo;
 
-@Service
-public class PostService {
-	
-@Autowired
-PostRepo pr;
-
-public PostDto post(Post posts) {
-	
-	Post pms = pr.save(posts);
-	
-	PostDto pst = new PostDto(pms);
-	
-	return pst;
-	
-}
+    protected User getUser(long id) {
+        Optional<User> user = userRepo.findById(id);
+        user.orElseThrow(() -> new ResourceNotFoundException("User not found", "id", Long.valueOf(id)));
+        return user.get();
+    }
 }

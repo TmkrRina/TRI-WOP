@@ -1,115 +1,109 @@
 package com.doclink.model;
 
-import java.util.List;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.NonNull;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
-@Data
-public class Post {
+@Table(name = "post")
+@DiscriminatorColumn(name = "type")
+public abstract class Post implements Serializable {
 
-	public Post(Long id, String title, String description, String date, PostType type, User user
-			) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.description = description;
-		this.date = date;
-		this.type = type;
-		this.user = user;
+    public Post(Long id, String title, String description, String date, User user) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.user = user;
+    }
 
-	}
+    public Post() {
+    }
 
-	public Post() {}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    private String title;
 
-	private String title;
+    public LocalDateTime getCreateDateTime() {
+        return createDateTime;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public LocalDateTime getUpdateDateTime() {
+        return updateDateTime;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @CreationTimestamp
+    private LocalDateTime createDateTime;
 
-	public String getTitle() {
-		return title;
-	}
+    @UpdateTimestamp
+    private LocalDateTime updateDateTime;
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getDate() {
-		return date;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDate(String date) {
-		this.date = date;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public PostType getType() {
-		return type;
-	}
+    public String getDate() {
+        return date;
+    }
 
-	public void setType(PostType type) {
-		this.type = type;
-	}
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public abstract PostType getType();
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public List<Comment> getComments() {
-		return comments;
-	}
+    public static Post create(PostType type) {
+        switch (type) {
+            case HealthIssue:
+                return new HealthIssue();
+            case Announcement:
+                return new Announcement();
+            case BannerAnnouncement:
+                return new BannerAnnouncement();
+        }
 
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
-	}
+        return null;
+    }
 
-	private String description;
-	private String date;
-	
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	@Enumerated(EnumType.STRING)
-	private PostType type;
+    private String description;
+    private String date;
 
-	@ManyToOne
-	private User user;
-	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "posts",cascade = CascadeType.ALL)
-	@JsonIgnore
-	private List<Comment> comments;
-	
+    @ManyToOne
+    private User user;
+
 }
 

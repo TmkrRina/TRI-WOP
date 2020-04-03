@@ -1,23 +1,19 @@
 package com.doclink.service;
 
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.doclink.model.Doctor;
 import com.doclink.model.User;
-
-//import com.doclink.dto.UserDto;
-
 import com.doclink.model.UserRole;
 import com.doclink.model.VerificationToken;
 import com.doclink.repositories.DoctorRepo;
 import com.doclink.repositories.UserRepo;
 import com.doclink.repositories.VerificationTokenRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.Optional;
+
 
 @Service
 @Transactional
@@ -34,22 +30,6 @@ public class UserService implements IUserService, IDoctorService {
     @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
 
-//    public User registerNewUserAccount(UserDto userDto) throws EmailExistsException {
-//
-//        if (emailExist(userDto.getEmail())) {
-//            throw new EmailExistsException(
-//                    "There is an account with that email adress: "
-//                            + userDto.getEmail());
-//        }
-//
-//        User user = new User();
-//        user.setFirstName(userDto.getFirstName());
-//        user.setLastName(userDto.getLastName());
-//        user.setPassword(userDto.getPassword());
-//        user.setEmail(userDto.getEmail());
-//        user.setRole(user.getRole());
-//        return userRepo.save(user);
-//    }
 
     private boolean emailExist(String email) {
         Optional<User> user = userRepo.findByEmail(email);
@@ -85,6 +65,7 @@ public class UserService implements IUserService, IDoctorService {
     public User createUser(User user) {
         user.setRole(UserRole.ROLE_PATIENT);
         user.setUsername(user.getEmail());
+        user.setConfirmedEmail(false);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepo.save(user);
         return user;

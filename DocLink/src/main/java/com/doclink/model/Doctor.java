@@ -1,19 +1,25 @@
 package com.doclink.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.doclink.dto.NewDoctorDto;
+import com.doclink.repositories.UserRepo;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Data
 public class Doctor {
+	public Doctor(NewDoctorDto doctor) {
+		this.specialization = doctor.getSpecialization();
+		this.experience = doctor.getExperience();
+	}
 
 	public Long getId() {
 		return id;
@@ -63,14 +69,27 @@ public class Doctor {
 	private String experience;
 
 	@NotNull
-	@NotEmpty(message = "User model is required")
-	@OneToOne
-	@JoinColumn(name="user")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
 	public Doctor(User user, String specialization, String experience) {
 		this.user = user;
 		this.specialization = specialization;
 		this.experience = experience;
+	}
+
+	@CreationTimestamp
+	private LocalDateTime createDateTime;
+
+	@UpdateTimestamp
+	private LocalDateTime updateDateTime;
+
+	public LocalDateTime getCreateDateTime() {
+		return createDateTime;
+	}
+
+	public LocalDateTime getUpdateDateTime() {
+		return updateDateTime;
 	}
 }
