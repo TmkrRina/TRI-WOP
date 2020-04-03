@@ -73,6 +73,7 @@ public class UserService implements IUserService, IDoctorService {
 
     @Override
     public Doctor createDoctor(Doctor doctor) {
+        doctor.getUser().setPassword(bCryptPasswordEncoder.encode(doctor.getUser().getPassword()));
         doctorRepo.save(doctor);
         return doctor;
     }

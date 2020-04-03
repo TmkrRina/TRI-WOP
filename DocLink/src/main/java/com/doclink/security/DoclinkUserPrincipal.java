@@ -35,6 +35,8 @@ public class DoclinkUserPrincipal implements UserDetails {
     private String state;
     private String country;
     private String profileImg;
+
+    @JsonIgnore
     private Boolean confirmedEmail;
 
 
@@ -119,18 +121,18 @@ public class DoclinkUserPrincipal implements UserDetails {
     }
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return confirmedEmail;
     }
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return confirmedEmail;
     }
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return confirmedEmail;
     }
     @Override
     public boolean isEnabled() {
-        return true;
+        return confirmedEmail;
     }
 }
