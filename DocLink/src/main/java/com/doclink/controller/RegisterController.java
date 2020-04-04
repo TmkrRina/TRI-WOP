@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,7 @@ import com.doclink.service.DoctorService;
 import com.doclink.service.UserService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8082", maxAge = 3600)
 public class RegisterController {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
@@ -44,7 +46,7 @@ public class RegisterController {
         if (result.hasErrors()) {
             throw new FormErrorsException(errors);
         } else {
-            User newUser = new User(user.getEmail(), user.getPassword());
+            User newUser = new User(user);
             newUser = userService.createUser(newUser);
 //            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getLocale(), request.getContextPath()));
             return newUser;

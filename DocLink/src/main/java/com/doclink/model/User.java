@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.*;
 
 
+import com.doclink.dto.NewUserDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -62,8 +63,19 @@ public class User {
     	this.password = password;
     }
 
+	public User(NewUserDto user) {
+    	setUsername(user.getEmail());
+    	setFirstName(user.getFirstName());
+    	setLastName(user.getLastName());
+    	setCountry(user.getCountry());
+    	setState(user.getState());
+    	setGender(user.getGender());
+    	setPassword(user.getPassword());
+    	setEmail(user.getEmail());
+	}
 
-    public LocalDateTime getCreateDateTime() {
+
+	public LocalDateTime getCreateDateTime() {
 		return createDateTime;
 	}
 
@@ -72,7 +84,7 @@ public class User {
 	}
 
 	@Column(name = "EMAIL", unique = true, nullable = false)
-	@NotEmpty(message = "Please provide a name")
+	@NotEmpty(message = "Please provide an email")
 	@NotNull
 	private String email;
 

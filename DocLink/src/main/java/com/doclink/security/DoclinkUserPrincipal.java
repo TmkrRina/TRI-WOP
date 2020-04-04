@@ -121,18 +121,18 @@ public class DoclinkUserPrincipal implements UserDetails {
     }
     @Override
     public boolean isAccountNonExpired() {
-        return confirmedEmail;
+        return true;
     }
     @Override
     public boolean isAccountNonLocked() {
-        return confirmedEmail;
+        return true;
     }
     @Override
     public boolean isCredentialsNonExpired() {
-        return confirmedEmail;
+        return true;
     }
     @Override
     public boolean isEnabled() {
-        return confirmedEmail;
+        return true;
     }
 }

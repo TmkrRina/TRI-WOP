@@ -64,7 +64,6 @@ public class UserService implements IUserService, IDoctorService {
     @Override
     public User createUser(User user) {
         user.setRole(UserRole.ROLE_PATIENT);
-        user.setUsername(user.getEmail());
         user.setConfirmedEmail(false);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepo.save(user);
