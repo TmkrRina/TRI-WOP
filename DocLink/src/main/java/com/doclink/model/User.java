@@ -197,5 +197,7 @@ public class User {
 		this.role = role;
 	}
 
-	
+	@OneToOne(mappedBy = "user")
+	private Doctor doctor;
+
 }

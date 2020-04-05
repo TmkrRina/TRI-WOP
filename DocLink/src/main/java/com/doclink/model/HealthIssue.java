@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "post")
 @DiscriminatorValue(value = "HealthIssue")
 public class HealthIssue extends Post {
 
