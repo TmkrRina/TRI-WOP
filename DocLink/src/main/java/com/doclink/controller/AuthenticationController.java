@@ -1,15 +1,8 @@
 package com.doclink.controller;
 
-import com.doclink.dto.JwtAuthDto;
-import com.doclink.dto.JwtResponseDto;
-import com.doclink.dto.RequestErrorsDto;
-import com.doclink.exception.ApiError;
-import com.doclink.exception.FormErrorsException;
-import com.doclink.security.JwtTokenGenerator;
-import com.doclink.service.DoclinkUserDetailService;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -17,15 +10,19 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.Optional;
+import com.doclink.dto.JwtAuthDto;
+import com.doclink.dto.JwtResponseDto;
+import com.doclink.exception.FormErrorsException;
+import com.doclink.security.JwtTokenGenerator;
+import com.doclink.service.DoclinkUserDetailService;
 
 @RestController
 @CrossOrigin
@@ -40,7 +37,7 @@ public class AuthenticationController {
     DoclinkUserDetailService doclinkUserDetailService;
 
     @RequestMapping(value = "/api/auth", method = RequestMethod.POST)
-    public ResponseEntity<?> authenticate(@Valid @RequestBody JwtAuthDto jwtAuthDto, BindingResult result, Errors errors) throws Exception, FormErrorsException {
+    public JwtResponseDto authenticate(@Valid @RequestBody JwtAuthDto jwtAuthDto, BindingResult result, Errors errors) throws Exception, FormErrorsException {
 
         if(result.hasErrors()) {
             throw new FormErrorsException(errors);
@@ -54,7 +51,7 @@ public class AuthenticationController {
         final String token = jwtTokenGenerator.generateToken(authentication);
 
 
-        return ResponseEntity.ok(new JwtResponseDto(token, userDetails));
+        return new JwtResponseDto(token, userDetails);
 
     }
 

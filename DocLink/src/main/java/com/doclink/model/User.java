@@ -2,24 +2,26 @@ package com.doclink.model;
 
 
 
-import java.util.List;
+import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-
-import lombok.Data;
-
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.doclink.dto.NewUserDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Data;
 
 
 @Entity
@@ -55,8 +57,39 @@ public class User {
 	private String firstName;
 	private String lastName;
 
+	@CreationTimestamp
+	private LocalDateTime createDateTime;
+
+	@UpdateTimestamp
+	private LocalDateTime updateDateTime;
+
+    public User(String email, String password) {
+    	this.email = email;
+    	this.password = password;
+    }
+
+	public User(NewUserDto user) {
+    	setUsername(user.getEmail());
+    	setFirstName(user.getFirstName());
+    	setLastName(user.getLastName());
+    	setCountry(user.getCountry());
+    	setState(user.getState());
+    	setGender(user.getGender());
+    	setPassword(user.getPassword());
+    	setEmail(user.getEmail());
+	}
+
+
+	public LocalDateTime getCreateDateTime() {
+		return createDateTime;
+	}
+
+	public LocalDateTime getUpdateDateTime() {
+		return updateDateTime;
+	}
+
 	@Column(name = "EMAIL", unique = true, nullable = false)
-	@NotEmpty(message = "Please provide a name")
+	@NotEmpty(message = "Please provide an email")
 	@NotNull
 	private String email;
 
@@ -73,6 +106,7 @@ public class User {
 
 	@NotEmpty(message = "Please provide a password")
 	@NotNull
+	@JsonIgnore
 	private String password;
 
 	private String gender;
@@ -168,12 +202,6 @@ public class User {
 		this.role = role;
 	}
 
-//	@OneToMany(fetch = FetchType.LAZY,mappedBy = "user",cascade = CascadeType.ALL)
-//	private List<Post> posts;
-
-//	 @OneToMany(cascade=CascadeType.ALL)
-//	    @JoinColumn(name="user")
-//	 @JsonIgnore
-//	    private List<Comment> comments;
-	
+	@OneToOne(mappedBy="user")
+	private Doctor doctor;
 }

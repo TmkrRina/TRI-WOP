@@ -1,19 +1,32 @@
 package com.doclink.model;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.doclink.dto.NewDoctorDto;
 
 import lombok.Data;
 
 @Entity
 @Data
 public class Doctor {
+	public Doctor(NewDoctorDto doctor,User user) {
+		this.specialization = doctor.getSpecialization();
+		this.experience = doctor.getExperience();
+		this.user=user;
+	
+	}
 
 	public Long getId() {
 		return id;
@@ -47,12 +60,7 @@ public class Doctor {
 		this.user = user;
 	}
 
-	public Doctor(Long id, String specialization, String experience, User user) {
-		this.id = id;
-		this.specialization = specialization;
-		this.experience = experience;
-		this.user = user;
-	}
+
 
 	public  Doctor() { }
 
@@ -63,14 +71,27 @@ public class Doctor {
 	private String experience;
 
 	@NotNull
-	@NotEmpty(message = "User model is required")
-	@OneToOne
-	@JoinColumn(name="user")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="user_id")
 	private User user;
 
 	public Doctor(User user, String specialization, String experience) {
 		this.user = user;
 		this.specialization = specialization;
 		this.experience = experience;
+	}
+
+	@CreationTimestamp
+	private LocalDateTime createDateTime;
+
+	@UpdateTimestamp
+	private LocalDateTime updateDateTime;
+
+	public LocalDateTime getCreateDateTime() {
+		return createDateTime;
+	}
+
+	public LocalDateTime getUpdateDateTime() {
+		return updateDateTime;
 	}
 }

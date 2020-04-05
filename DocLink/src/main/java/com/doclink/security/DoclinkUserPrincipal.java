@@ -35,6 +35,8 @@ public class DoclinkUserPrincipal implements UserDetails {
     private String state;
     private String country;
     private String profileImg;
+
+    @JsonIgnore
     private Boolean confirmedEmail;
 
 

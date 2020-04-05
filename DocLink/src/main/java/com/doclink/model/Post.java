@@ -1,39 +1,46 @@
 package com.doclink.model;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
-
 @Entity
-@Data
-public class Post {
+@Table(name = "post")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type",discriminatorType = DiscriminatorType.STRING)
 
-	public Post(Long id, String title, String description, String date, PostType type, User user
-			) {
-		super();
+public abstract class Post implements Serializable {
+
+	public Post(Long id, String title, String description, String date, User user) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.date = date;
-		this.type = type;
 		this.user = user;
-
 	}
 
-	public Post() {}
+	public Post() {
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,12 +48,22 @@ public class Post {
 
 	private String title;
 
-	public Long getId() {
-		return id;
+	public LocalDateTime getCreateDateTime() {
+		return createDateTime;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public LocalDateTime getUpdateDateTime() {
+		return updateDateTime;
+	}
+
+	@CreationTimestamp
+	private LocalDateTime createDateTime;
+
+	@UpdateTimestamp
+	private LocalDateTime updateDateTime;
+
+	public Long getId() {
+		return id;
 	}
 
 	public String getTitle() {
@@ -73,21 +90,37 @@ public class Post {
 		this.date = date;
 	}
 
-	public PostType getType() {
-		return type;
-	}
-
-	public void setType(PostType type) {
-		this.type = type;
-	}
+	public abstract PostType getType();
 
 	public User getUser() {
 		return user;
 	}
 
+	public static Post create(PostType type) {
+		switch (type) {
+		case HealthIssue:
+			return new HealthIssue();
+		case Announcement:
+			return new Announcement();
+		case BannerAnnouncement:
+			return new BannerAnnouncement();
+		}
+
+		return null;
+	}
+
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	private String description;
+	private String date;
+
+	@ManyToOne
+	private User user;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Comment> comments;
 
 	public List<Comment> getComments() {
 		return comments;
@@ -97,19 +130,4 @@ public class Post {
 		this.comments = comments;
 	}
 
-	private String description;
-	private String date;
-	
-
-	@Enumerated(EnumType.STRING)
-	private PostType type;
-
-	@ManyToOne
-	private User user;
-	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "posts",cascade = CascadeType.ALL)
-	@JsonIgnore
-	private List<Comment> comments;
-	
 }
-

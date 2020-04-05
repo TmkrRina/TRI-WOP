@@ -1,6 +1,7 @@
 package com.doclink.config;
 
 
+import com.doclink.model.UserRole;
 import com.doclink.security.JwtAuthenticationEntryPoint;
 import com.doclink.security.JwtAuthenticationFilter;
 import com.doclink.service.DoclinkUserDetailService;
@@ -81,10 +82,13 @@ public class DoclinkSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/js/**").permitAll()
+                .antMatchers("/api/posts").permitAll()
                 .antMatchers("/api/auth").permitAll()
-                .antMatchers("/api/register/doctor").permitAll()
+                .antMatchers("/api/banner-announcements").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/admin/{id}/banner-announcements").hasRole("ADMIN")
+//                .antMatchers("/api/users/{id}/posts")
                 //.antMatchers("/api/users/:id/posts", "/api/users/:id/comments").hasRole("Role_Patient")
-                .antMatchers(HttpMethod.POST, "/api/register")
+                .antMatchers(HttpMethod.POST, "/api/register", "/api/register/doctor")
                     .permitAll()
                 .anyRequest()
                     .authenticated();

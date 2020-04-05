@@ -4,23 +4,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.doclink.model.Comment;
+import com.doclink.repositories.AnnouncementRepo;
 import com.doclink.repositories.CommentRepo;
 
-import com.doclink.dto.CommentDto;
-
 @Service
-public class CommentService {
+public class CommentService extends PostService implements IComment{
+
     @Autowired
-    CommentRepo cr;
+   AnnouncementRepo announcementRepo;
+    @Autowired
+    CommentRepo commentRepo;
+	@Override
+	public Comment create(Comment comment, Long user_id,Long post_id ) {
+		 Comment oldComment = comment;
+		 oldComment.setDescription(comment.getDescription());
+		 oldComment.setDate(comment.getDate());
+		 oldComment.setUser(getUser(user_id));
+		 oldComment.setPost( getAnnouncement(post_id));
+	        commentRepo.save(oldComment);
+	        return (Comment) oldComment;
+		
+	}
 
-    public CommentDto comment(Comment comment) {
+	/*@Override
+	public Comment update(Comment comment) {
+		// TODO Auto-generated method stub
+		return null;
+	}*/
 
-        Comment cms = cr.save(comment);
-
-        CommentDto csto = new CommentDto(cms);
-
-        return csto;
-
-    }
 
 }
