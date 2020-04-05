@@ -2,27 +2,23 @@ package com.doclink.controller;
 
 import javax.validation.Valid;
 
-import com.doclink.dto.NewDoctorDto;
-import com.doclink.dto.NewUserDto;
-import com.doclink.exception.FormErrorsException;
-import com.doclink.exception.ResourceErrorException;
-import com.doclink.model.UserRole;
-import com.doclink.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.HttpHeaders;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.context.request.WebRequest;
 
-import com.doclink.events.OnRegistrationCompleteEvent;
+import com.doclink.dto.NewDoctorDto;
+import com.doclink.dto.NewUserDto;
+import com.doclink.exception.FormErrorsException;
+import com.doclink.exception.ResourceErrorException;
 import com.doclink.model.Doctor;
 import com.doclink.model.User;
+import com.doclink.model.UserRole;
+import com.doclink.repositories.UserRepo;
 import com.doclink.service.DoctorService;
 import com.doclink.service.UserService;
 
@@ -69,8 +65,9 @@ public class RegisterController {
                 user.setState(doctor.getState());
                 user.setUsername(doctor.getEmail());
                 user.setRole(UserRole.ROLE_DOCTOR);
+
                 Doctor newDoctor = new Doctor(doctor);
-//                newDoctor.setUser(user);
+                newDoctor.setUser(user);
                 newDoctor = userService.createDoctor(newDoctor, user);
 //            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(doctor.getUser(), request.getLocale(), request.getContextPath()));
                 return newDoctor;

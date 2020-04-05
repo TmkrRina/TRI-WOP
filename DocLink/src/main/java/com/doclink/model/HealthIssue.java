@@ -8,9 +8,14 @@ import java.util.List;
 
 @Entity
 @DiscriminatorValue(value = "HealthIssue")
+@DiscriminatorColumn(name = "type",discriminatorType = DiscriminatorType.STRING)
 public class HealthIssue extends Post {
+	
+
+
 
     public HealthIssue() {
+    	 super();
     }
 
     @Override
