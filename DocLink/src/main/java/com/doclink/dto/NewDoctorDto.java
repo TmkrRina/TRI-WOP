@@ -24,6 +24,7 @@ public class NewDoctorDto {
     @NotNull(message = "Country required")
     private String country;
 
+
     private String state;
 
     public String getCountry() {

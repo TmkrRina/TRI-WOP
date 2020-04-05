@@ -21,11 +21,10 @@ import lombok.Data;
 @Entity
 @Data
 public class Doctor {
-	public Doctor(NewDoctorDto doctor,User user) {
+	public Doctor(NewDoctorDto doctor) {
 		this.specialization = doctor.getSpecialization();
 		this.experience = doctor.getExperience();
-		this.user=user;
-	
+
 	}
 
 	public Long getId() {

@@ -71,8 +71,11 @@ public class UserService implements IUserService, IDoctorService {
     }
 
     @Override
-    public Doctor createDoctor(Doctor doctor) {
-        doctor.getUser().setPassword(bCryptPasswordEncoder.encode(doctor.getUser().getPassword()));
+    public Doctor createDoctor(Doctor doctor, User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        doctor.setUser(user);
+        System.out.printf("+++++++++++++++++++++++++++++++++%n%s%n++++++++++++++++++++++++++", doctor);
+//        doctor.getUser().setPassword(bCryptPasswordEncoder.encode(doctor.getUser().getPassword()));
         doctorRepo.save(doctor);
         return doctor;
     }

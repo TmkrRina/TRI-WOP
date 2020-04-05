@@ -65,9 +65,10 @@ public class RegisterController {
                 user.setState(doctor.getState());
                 user.setUsername(doctor.getEmail());
                 user.setRole(UserRole.ROLE_DOCTOR);
-                Doctor newDoctor = new Doctor(doctor,user);
-                
-                newDoctor = userService.createDoctor(newDoctor);
+
+                Doctor newDoctor = new Doctor(doctor);
+                newDoctor.setUser(user);
+                newDoctor = userService.createDoctor(newDoctor, user);
 //            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(doctor.getUser(), request.getLocale(), request.getContextPath()));
                 return newDoctor;
 
