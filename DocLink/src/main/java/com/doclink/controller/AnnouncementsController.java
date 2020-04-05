@@ -33,6 +33,7 @@ public class AnnouncementsController {
         }
         return announcement;
     }
+    
 
     @GetMapping("/api/announcements")
     public @ResponseBody
