@@ -14,6 +14,7 @@ import com.doclink.service.BannerAnnouncementService;
 
 
 @RestController
+@CrossOrigin
 public class BannerAnnouncementController {
 	@Autowired
 	BannerAnnouncementService bannerAnnoucementService;

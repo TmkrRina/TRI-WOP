@@ -23,7 +23,7 @@ import com.doclink.service.DoctorService;
 import com.doclink.service.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8082", maxAge = 3600)
+@CrossOrigin
 public class RegisterController {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
@@ -68,7 +68,7 @@ public class RegisterController {
 
                 Doctor newDoctor = new Doctor(doctor);
                 newDoctor.setUser(user);
-                newDoctor = userService.createDoctor(newDoctor, user);
+                newDoctor = userService.createDoctor(newDoctor);
 //            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(doctor.getUser(), request.getLocale(), request.getContextPath()));
                 return newDoctor;
 

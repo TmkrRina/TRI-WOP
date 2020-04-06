@@ -202,6 +202,7 @@ public class User {
 		this.role = role;
 	}
 
+	@JsonIgnore
 	@OneToOne(mappedBy="user")
 	private Doctor doctor;
 }
