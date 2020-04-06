@@ -11,12 +11,11 @@ import com.doclink.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 
@@ -27,7 +26,7 @@ import com.doclink.service.DoctorService;
 import com.doclink.service.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8082", maxAge = 3600)
+@CrossOrigin
 public class RegisterController {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
@@ -41,6 +40,10 @@ public class RegisterController {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private PasswordEncoder bCryptPasswordEncoder;
+
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/register")
     public User register(@Valid @RequestBody NewUserDto user, BindingResult result, Errors errors) throws FormErrorsException {
         if (result.hasErrors()) {
@@ -53,6 +56,7 @@ public class RegisterController {
         }
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/register/doctor")
     public Doctor registerDoctor(@Valid @RequestBody NewDoctorDto doctor, BindingResult bindingResult, Errors errors) throws FormErrorsException {
         if (bindingResult.hasErrors()) {
@@ -69,6 +73,7 @@ public class RegisterController {
                 user.setState(doctor.getState());
                 user.setUsername(doctor.getEmail());
                 user.setRole(UserRole.ROLE_DOCTOR);
+                user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
                 Doctor newDoctor = new Doctor(doctor);
                 newDoctor.setUser(user);
                 newDoctor = userService.createDoctor(newDoctor);

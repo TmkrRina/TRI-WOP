@@ -26,6 +26,10 @@ public class NewDoctorDto {
 
     private String state;
 
+    public NewDoctorDto() {
+
+    }
+
     public String getCountry() {
         return country;
     }
