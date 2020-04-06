@@ -4,12 +4,23 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+<<<<<<< HEAD
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.context.request.WebRequest;
+=======
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+>>>>>>> b1592c1d8271f122902a0da23d1c6890990b2d1e
 
 import com.doclink.dto.NewDoctorDto;
 import com.doclink.dto.NewUserDto;
@@ -37,6 +48,10 @@ public class RegisterController {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private PasswordEncoder bCryptPasswordEncoder;
+
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/register")
     public User register(@Valid @RequestBody NewUserDto user, BindingResult result, Errors errors) throws FormErrorsException {
         if (result.hasErrors()) {
@@ -49,6 +64,7 @@ public class RegisterController {
         }
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/register/doctor")
     public Doctor registerDoctor(@Valid @RequestBody NewDoctorDto doctor, BindingResult bindingResult, Errors errors) throws FormErrorsException {
         if (bindingResult.hasErrors()) {

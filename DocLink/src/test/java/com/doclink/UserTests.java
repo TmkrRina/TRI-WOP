@@ -30,11 +30,22 @@ class UserTests {
 	
 	@Test
 	void test() {
-		User nm = new User((long) 1,"perry","luigi","sdfsdf","123ed","male","iowa","usa","adsdasd",true,UserRole.ROLE_ADMIN);
+		User nm = new User(
+				(long) 1,
+				"perry",
+				"luigi",
+				"perry@gmai.com",
+				"123ed",
+				"male",
+				"iowa",
+				"usa",
+				"adsdasd",
+				true,
+				UserRole.ROLE_ADMIN);
 		
 		try {
 			this.json.write(nm);
-			assertThat(this.json.write(nm)).isEqualTo("{\"id\":1,\"fname\":\"perry\",\"lname\":\"luigi\",\"email\":\"sdfsdf\",\"password\":\"123ed\",\"gender\":\"male\",\"state\":\"iowa\",\"country\":\"usa\",\"profile_img\":\"adsdasd\",\"confirmed_email\":true,\"role\":\"Role_Admin\"}");
+			assertThat(this.json.write(nm)).isEqualTo("{\"id\":1,\"firstName\":\"perry\",\"lastName\":\"luigi\",\"email\":\"perry@gmai.com\",\"gender\":\"male\",\"state\":\"iowa\",\"country\":\"usa\",\"profileImg\":\"adsdasd\",\"confirmedEmail\":true,\"role\":\"ROLE_ADMIN\"}");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -66,6 +66,9 @@ public class NewUserDto {
         this.country = country;
     }
 
+    public NewUserDto() {
+    }
+
     public String getPassword() {
         return password;
     }
