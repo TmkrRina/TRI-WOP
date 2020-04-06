@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
+@CrossOrigin
 public class AnnouncementsController {
     @Autowired
     AnnouncementService announcementService;
@@ -33,6 +34,7 @@ public class AnnouncementsController {
         }
         return announcement;
     }
+    
 
     @GetMapping("/api/announcements")
     public @ResponseBody
@@ -40,7 +42,7 @@ public class AnnouncementsController {
         return announcementRepo.findAll();
     }
 
-    @PostMapping("/api/users/announcements/{id}")
+    @GetMapping("/api/users/announcements/{id}")
     public @ResponseBody Announcement getAnnouncement(@PathVariable("id") Long id) {
         return announcementRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Not found", "id", id));
     }

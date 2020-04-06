@@ -1,33 +1,60 @@
 package com.doclink.model;
 
-import javax.persistence.*;
+import java.time.LocalDateTime;
 
-import lombok.Data;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
 //@Data
 public class Comment {
 
-    private Comment() {
+    
+
+	private Comment() {
         // TODO Auto-generated method stub
 
     }
 
 
-    public Comment(Long id, User user, String date, String description, Post posts) {
+    public Comment(Long id, User user, String date, String description, Post post) {
         super();
         this.id = id;
         this.user = user;
         this.date = date;
         this.description = description;
-//		this.posts = posts;
+        this.post = post;
+        
     }
 
-    @Id
+    public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
+	public Post getPost() {
+		return post;
+	}
+
+
+	public void setPost(Post post2) {
+		this.post = post2;
+	}
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -67,12 +94,12 @@ public class Comment {
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "post_id", nullable = false)
-    private Announcement post;
+    private Post post;
 
     private String date;
     private String description;
+    
 
-//	@ManyToOne
-//	private Post posts;
+
 
 }

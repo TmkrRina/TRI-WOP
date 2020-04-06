@@ -1,30 +1,23 @@
 package com.doclink.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 
 @Entity
 @DiscriminatorValue(value = "Announcement")
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public class Announcement extends Post {
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Comment> comments;
+   
 
     public Announcement() {
+    	super();
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    @Override
+    @Override()
     public PostType getType() {
         return PostType.Announcement;
     }
